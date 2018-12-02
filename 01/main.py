@@ -13,7 +13,7 @@ def p1(changes):
     return sum(changes)
 
 def p2(changes):
-    seen = set(0)
+    seen = set([0])
     return next(f for f in accumulate(cycle(changes)) if f in seen or seen.add(f))
 
 def main():
