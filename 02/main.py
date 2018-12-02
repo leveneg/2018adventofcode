@@ -19,9 +19,7 @@ def p1(ids):
 def p2(ids):
     for first, second in combinations(ids, 2):
         z = list(zip(first, second))
-        nDiffs = len([1 for f, s in z if f != s])
-
-        if nDiffs == 1:
+        if sum([1 for f, s in z if f != s]) == 1:
             return ''.join([f for f, s in z if f == s])
 
 def main():
