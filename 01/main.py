@@ -4,23 +4,20 @@ import os
 import sys
 
 from itertools import accumulate, cycle
-
-def getLines():
-    with open(os.path.join(sys.path[0], 'input.txt')) as f:
-        return f.readlines()
-
-def p1(changes):
-    return sum(changes)
-
-def p2(changes):
-    seen = set([0])
-    return next(f for f in accumulate(cycle(changes)) if f in seen or seen.add(f))
+from time import process_time
 
 def main():
-    changes = [int(l) for l in getLines()]
+    seen = set([0])
+    with open(os.path.join(sys.path[0], 'input.txt')) as f:
+        changes = [int(l) for l in f.readlines()]
 
-    print('P1: {}'.format(p1(changes)))
-    print('P2: {}'.format(p2(changes)))
+    p1 = sum(changes)
+    p2 = next(f for f in accumulate(cycle(changes)) if f in seen or seen.add(f))
+
+    print('P1: {}'.format(p1))
+    print('P2: {}'.format(p2))
 
 if __name__ == "__main__":
+    start = process_time()
     main()
+    print('--- {} seconds ---'.format(process_time() - start))

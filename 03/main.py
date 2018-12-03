@@ -2,6 +2,7 @@
 
 import os
 import sys
+import time
 
 from collections import defaultdict
 
@@ -36,4 +37,6 @@ def main():
     print('P2: {}'.format(p2))
 
 if __name__ == "__main__":
+    start = time.process_time()
     main()
+    print('--- {} seconds ---'.format(time.process_time() - start))
