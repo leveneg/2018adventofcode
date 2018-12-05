@@ -3,7 +3,7 @@
 import os
 import sys
 
-from string import ascii_uppercase
+from string import ascii_lowercase, ascii_uppercase
 from time import process_time
 
 def compress(s):
@@ -23,8 +23,8 @@ def main():
     p1 = compress(s)
     p2 = len(s)
 
-    for c in ascii_uppercase:
-        d = [l for l in s if l != c.lower() and l != c]
+    for pair in zip(ascii_lowercase, ascii_uppercase):
+        d = [l for l in s if l not in pair]
         p2 = min(p2, compress(d))
 
     print('P1: {}'.format(p1))
