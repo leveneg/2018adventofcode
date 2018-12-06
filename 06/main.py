@@ -13,24 +13,22 @@ def main():
 
     m = {}
     in_region = set()
-    counts = defaultdict(int)
     buff = 10000 // len(coords)
-    minX = min(x for x, _ in coords)
-    minY = min(y for _, y in coords)
-    maxX = max(x for x, _ in coords)
-    maxY = max(y for _, y in coords)
+    xs, ys = zip(*coords)
+    minX, minY, maxX, maxY = (min(xs), min(ys), max(xs), max(ys))
 
     for i in range(minX - buff, maxX + buff):
         for j in range(minY - buff, maxY + buff):
-            dists = [((x, y), abs(x - i) + abs(y - j)) for x, y in coords]
-            distSum = sum(dist for _, dist in dists)
-            mDist = min(dists, key=lambda d: d[1])
-            val = mDist if [d[1] for d in dists].count(mDist[1]) == 1 else (None, None)
+            _m = [((x, y), abs(x - i) + abs(y - j)) for x, y in coords]
+            dists = [d for _, d in _m]
+            distSum = sum(dists)
+            mDist = min(_m, key=lambda d: d[1])
 
-            m[(i, j)] = val
+            m[(i, j)] = mDist[0] if dists.count(mDist[1]) == 1 else (None, None)
             if distSum < 10000: in_region.add((i, j))
 
-    for (x, y), (closest, dist) in m.items():
+    counts = defaultdict(int)
+    for (x, y), closest in m.items():
         if not closest:
             continue
 
