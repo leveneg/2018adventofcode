@@ -24,7 +24,7 @@ def main():
             distSum = sum(dists)
             mDist = min(_m, key=lambda d: d[1])
 
-            m[(i, j)] = mDist[0] if dists.count(mDist[1]) == 1 else (None, None)
+            m[(i, j)] = mDist[0] if dists.count(mDist[1]) == 1 else None
             if distSum < 10000: in_region.add((i, j))
 
     counts = defaultdict(int)
