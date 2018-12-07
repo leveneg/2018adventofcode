@@ -3,7 +3,6 @@
 import os
 import sys
 
-from copy import deepcopy
 from time import process_time
 from string import ascii_uppercase as uppers
 
@@ -21,16 +20,10 @@ def main():
     p1 = ''.join(steps)
 
     tick = 0
-    steps = []
-    tasks = []
+    steps = tasks = []
     while len(steps) < len(uppers):
         names, times = zip(*tasks) if tasks else ([], [])
-
-        ns = None
-        for s, d in g.items():
-            if s not in steps + list(names) and all(p in steps for p in d):
-                ns = s
-                break
+        ns = next(s for s, d in g.items() if s not in steps + list(names) and all(p in steps for p in d))
 
         if ns and len(tasks) < 5:
             tasks.append((ns, ord(ns) - 4))
