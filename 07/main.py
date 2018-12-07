@@ -12,41 +12,35 @@ def main():
         instructions = [l.strip().split(' ') for l in f.readlines()]
         deps = [(l[1], l[7]) for l in instructions]
 
-    nNodes = len(uppers)
     steps = []
-    g = {k: [0 for _ in range(nNodes)] for k in uppers}
-    for dep, step in deps:
-        g[step][uppers.index(dep)] = 1
-
-    m = deepcopy(g)
-    while len(steps) < nNodes:
-        nextStep = next(s for s, d in m.items() if not any(d) and s not in steps)
-        steps.append(nextStep)
-        del m[nextStep]
-        for deps in m.values(): deps[uppers.index(nextStep)] = 0
+    g = {k: [d for d, s in deps if s == k] for k in uppers}
+    while len(steps) < len(uppers):
+        ns = next(s for s, d in g.items() if s not in steps and all(p in steps for p in d))
+        steps.append(ns)
 
     p1 = ''.join(steps)
 
-    m = deepcopy(g)
-    tasks = []
     tick = 0
-    while tasks or m:
-        tNames, times = zip(*tasks) if tasks else ([], [])
-        avail = [t for t, d in m.items() if t not in tNames and not any(d)]
+    steps = []
+    tasks = []
+    while len(steps) < len(uppers):
+        names, times = zip(*tasks) if tasks else ([], [])
 
-        if avail and len(tasks) < 5:
-            tName = min(avail)
-            tasks.append((tName, ord(tName) - 4))
+        ns = None
+        for s, d in g.items():
+            if s not in steps + list(names) and all(p in steps for p in d):
+                ns = s
+                break
+
+        if ns and len(tasks) < 5:
+            tasks.append((ns, ord(ns) - 4))
             continue
 
         mTime = min(times)
-        done = [(t, tt) for t, tt in tasks if tt == mTime]
-        tasks = [(t, tt - mTime) for t, tt in tasks if (t, tt) not in done]
+        done = [t for t, tt in tasks if tt == mTime]
+        tasks = [(t, tt - mTime) for t, tt in tasks if t not in done]
         tick += mTime
-
-        for s, _ in done:
-            for r in m.values(): r[uppers.index(s)] = 0
-            del m[s]
+        steps += done
 
     p2 = tick
 
