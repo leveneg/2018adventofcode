@@ -18,14 +18,14 @@ def main():
     matched_once = False
     for i in range(GENERATIONS):
         ns = set()
-        for j in range(min(state) - 3, max(state) + 4):
+        for j in range(min(state) - 2, max(state) + 3):
             local = ''.join('#' if j + k in state else '.' for k in range(-2,3))
             if rules[local] == '#': ns.add(j)
 
         state = ns
         res = sum(state)
 
-        if i == 20:
+        if i == 19:
             p1 = res
 
         if res - ls == ld:
