@@ -31,7 +31,6 @@ def main():
         if res - ls == ld:
             if matched_once:
                 p2 = ((GENERATIONS - i - 1) * ld) + res
-                matched_once = False
                 break
 
             matched_once = True
