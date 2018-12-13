@@ -10,13 +10,13 @@ GENERATIONS = 50000000000
 def main():
     with open(os.path.join(sys.path[0], 'input.txt')) as f:
         lines = [l.strip() for l in f.readlines()]
-        _, init = [s for s in lines[0].split(': ')]
-        state = [i for i, s in enumerate(init) if s == '#']
+        _, init = lines[0].split(': ')
+        state = set([i for i, s in enumerate(init) if s == '#'])
         rules = {f: s for f, s in [l.split(' => ') for l in lines[2:]]}
 
     ls, ld = (sum(state), 0)
     matched_once = False
-    for i in range(GENERATIONS):
+    for i in range(1, GENERATIONS):
         ns = set()
         for j in range(min(state) - 2, max(state) + 3):
             local = ''.join('#' if j + k in state else '.' for k in range(-2,3))
@@ -25,12 +25,12 @@ def main():
         state = ns
         res = sum(state)
 
-        if i == 19:
+        if i == 20:
             p1 = res
 
         if res - ls == ld:
             if matched_once:
-                p2 = ((GENERATIONS - i - 1) * ld) + res
+                p2 = ((GENERATIONS - i) * ld) + res
                 break
 
             matched_once = True
