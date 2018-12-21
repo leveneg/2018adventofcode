@@ -16,6 +16,7 @@ def main():
     distances = defaultdict(lambda: inf)
     distances[p] = 0
     dirs = {'E': 1, 'N': 1j, 'W': -1, 'S': -1j}
+
     for c in exp[1:-1]:
         if c == '(':
             stack.append(p)

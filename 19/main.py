@@ -35,8 +35,6 @@ def main():
     with open(os.path.join(sys.path[0], 'input.txt')) as f:
         instructions = [l.strip() for l in f.readlines()]
 
-    p1 = p2 = None
-
     def run(regs):
         _is = instructions[:]
         ip = 0

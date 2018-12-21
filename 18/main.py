@@ -36,7 +36,6 @@ def main():
             return '#' if nl > 2 else tile
 
         if tile == '#':
-            return '.' if nl == 0 and nt == 0 else tile
             return tile if nl > 0 and nt > 0 else '.'
 
 
@@ -70,8 +69,7 @@ def main():
         if len(rvs) < 100:
             continue
 
-        first = rvs.pop(0)
-        dup = next((i for i, v in enumerate(rvs) if v == first), None)
+        dup = next((i for i, v in enumerate(rvs) if v == rvs[0]), None)
         if dup and all(rvs[dup+i+1] == rvs[i] for i in range(15)):
             mod = dup + 1
 
